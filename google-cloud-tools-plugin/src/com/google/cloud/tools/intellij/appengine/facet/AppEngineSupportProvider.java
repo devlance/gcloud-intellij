@@ -317,7 +317,7 @@ public class AppEngineSupportProvider extends FrameworkSupportInModuleProvider {
 
     @SuppressWarnings("checkstyle:abbreviationaswordinname")
     private void createUIComponents() {
-      cloudSdkPanel = new CloudSdkPanel(sdkService);
+      cloudSdkPanel = new CloudSdkPanel();
     }
   }
 }
