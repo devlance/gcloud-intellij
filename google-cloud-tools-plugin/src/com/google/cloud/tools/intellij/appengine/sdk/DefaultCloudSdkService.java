@@ -78,7 +78,7 @@ public class DefaultCloudSdkService extends CloudSdkService {
       return Paths.get(propertiesComponent.getValue(CLOUD_SDK_PROPERTY_KEY));
     }
 
-    // Let library auto-discover Cloud SDK's location.
+    // Let common library auto-discover Cloud SDK's location.
     try {
       return new CloudSdk.Builder().build().getSdkPath();
     } catch (AppEngineException aee) {
