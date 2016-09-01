@@ -16,7 +16,9 @@
 
 package com.google.cloud.tools.intellij.appengine.sdk;
 
+import com.google.cloud.tools.appengine.api.AppEngineException;
 import com.google.cloud.tools.appengine.api.whitelist.AppEngineJreWhitelist;
+import com.google.cloud.tools.appengine.cloudsdk.CloudSdk;
 import com.google.cloud.tools.intellij.appengine.jps.model.impl.JpsAppEngineModuleExtensionImpl;
 
 import com.intellij.execution.configurations.ParametersList;
@@ -72,9 +74,16 @@ public class DefaultCloudSdkService extends CloudSdkService {
   @Nullable
   @Override
   public Path getSdkHomePath() {
-    return propertiesComponent.getValue(CLOUD_SDK_PROPERTY_KEY) != null
-        ? Paths.get(propertiesComponent.getValue(CLOUD_SDK_PROPERTY_KEY))
-        : null;
+    if (propertiesComponent.getValue(CLOUD_SDK_PROPERTY_KEY) != null) {
+      return Paths.get(propertiesComponent.getValue(CLOUD_SDK_PROPERTY_KEY));
+    }
+
+    // Let library auto-discover Cloud SDK's location.
+    try {
+      return new CloudSdk.Builder().build().getSdkPath();
+    } catch (AppEngineException aee) {
+      return null;
+    }
   }
 
   @Override
